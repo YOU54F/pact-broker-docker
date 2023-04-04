@@ -1,10 +1,24 @@
-FROM ruby:2.7.7-alpine3.16
+FROM ruby:2.7.7-alpine3.16 AS base
 
-ARG SUPERCRONIC_PLATFORM=amd64
-ARG SUPERCRONIC_SHA1SUM=2319da694833c7a147976b8e5f337cd83397d6be
+FROM base AS base-amd64
+ENV SUPERCRONIC_SHA1SUM=2319da694833c7a147976b8e5f337cd83397d6be
 
-ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.2/supercronic-linux-${SUPERCRONIC_PLATFORM} \
-    SUPERCRONIC=supercronic-linux-${SUPERCRONIC_PLATFORM}
+FROM base AS base-arm64
+ENV SUPERCRONIC_SHA1SUM=c7d51b610d96a9a58d5eef0308922acc8be62eac
+
+FROM base AS base-arm
+ENV SUPERCRONIC_SHA1SUM=f6a61efbdd9a223e750aa03d16bbc417113a64d9
+
+ARG TARGETARCH
+FROM base-$TARGETARCH AS pb-dev
+
+RUN env
+
+ARG RUBY_VERSION=2.7.0
+ARG TARGETARCH
+
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.2/supercronic-linux-${TARGETARCH} \
+    SUPERCRONIC=supercronic-linux-${TARGETARCH}
 
 RUN wget "$SUPERCRONIC_URL" \
  && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
@@ -28,9 +42,9 @@ RUN set -ex && \
   apk add --update --no-cache make gcc libc-dev mariadb-dev postgresql-dev sqlite-dev git && \
   apk upgrade && \
   gem install bundler -v $(cat BUNDLER_VERSION) && \
-  ls /usr/local/lib/ruby/gems/2.7.0 && \
-  gem install rdoc -v "6.3.2" --install-dir /usr/local/lib/ruby/gems/2.7.0 && \
-  gem uninstall --install-dir /usr/local/lib/ruby/gems/2.7.0 -x rake && \
+  ls /usr/local/lib/ruby/gems/${RUBY_VERSION} && \
+  gem install rdoc -v "6.3.2" --install-dir /usr/local/lib/ruby/gems/${RUBY_VERSION} && \
+  gem uninstall --install-dir /usr/local/lib/ruby/gems/${RUBY_VERSION} -x rake && \
   find /usr/local/lib/ruby -name webrick* -exec rm -rf {} + && \
   find /usr/local/lib/ruby -name rdoc-6.1* -exec rm -rf {} + && \
   bundle config set deployment 'true' && \

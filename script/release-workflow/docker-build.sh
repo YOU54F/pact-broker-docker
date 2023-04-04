@@ -2,6 +2,10 @@
 
 set -euo >/dev/null
 
-DOCKER_TARGET_PLATFORM=${DOCKER_TARGET_PLATFORM:-"linux/amd64"}
-
-docker buildx build --platform=${DOCKER_TARGET_PLATFORM} -t ${DOCKER_IMAGE_ORG_AND_NAME}:latest .
+for arch in arm64 arm amd64; do 
+    docker buildx build \
+    --platform linux/$arch \
+    --output type=docker \
+    --tag ${DOCKER_IMAGE_ORG_AND_NAME}:latest-${arch} \
+    .
+done

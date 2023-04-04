@@ -20,7 +20,11 @@ jobs:
           DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       - name: Build Docker image
-        run: docker buildx build --platform=${DOCKER_TARGET_PLATFORM} -t pactfoundation/pact-broker:latest .
+        run: |
+          ./script/release-workflow/set-env-vars.sh
+          ./script/release-workflow/docker-prepare.sh
+          ./script/release-workflow/docker-build.sh
+          docker tag ${DOCKER_IMAGE_ORG_AND_NAME}:latest-amd64 ${DOCKER_IMAGE_ORG_AND_NAME}:latest
 
       - name: Integration tests
         run: script/test.sh
