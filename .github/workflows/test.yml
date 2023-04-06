@@ -3,13 +3,13 @@ name: Test
 on: [push, pull_request]
 env:
   DOCKER_TARGET_PLATFORM: "linux/amd64"
-  DOCKER_IMAGE_ORG_AND_NAME: "you54f/pact-broker"
+  DOCKER_IMAGE_ORG_AND_NAME: "pactfoundation/pact-broker"
 
 jobs:
   test:
     runs-on: "ubuntu-latest"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
       - run: "bundle install"
       - run: "bundle exec rake"
@@ -28,7 +28,7 @@ jobs:
 
       - uses: KengoTODA/actions-setup-docker-compose@v1
         if: ${{ env.ACT }}
-        name: Install `docker-compose` for local simulations
+        name: Install `docker-compose` for use with https://github.com/nektos/act
         with:
           version: '2.15.1'
 
