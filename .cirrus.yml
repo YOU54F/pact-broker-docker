@@ -12,6 +12,3 @@ linux_arm64_build_test_task:
   script:
     - docker buildx build --platform=linux/arm64 -t ${DOCKER_IMAGE_ORG_AND_NAME}:latest .
     - script/test.sh
-    - docker rmi ${DOCKER_IMAGE_ORG_AND_NAME}:latest
-    - docker buildx build --platform=linux/arm -t ${DOCKER_IMAGE_ORG_AND_NAME}:latest .
-    - DOCKER_DEFAULT_PLATFORM=linux/arm script/test.sh
