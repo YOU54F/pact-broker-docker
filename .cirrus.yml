@@ -1,0 +1,17 @@
+env:
+  DOCKER_IMAGE_ORG_AND_NAME: pactfoundation/pact-broker
+
+linux_arm64_build_test_task: 
+  compute_engine_instance:
+    image_project: cirrus-images
+    image: family/docker-builder-arm64
+    architecture: arm64
+    platform: linux
+    cpu: 4
+    memory: 16G
+  script:
+    - docker buildx build --platform=linux/arm64 -t ${DOCKER_IMAGE_ORG_AND_NAME}:latest .
+    - script/test.sh
+    - docker rmi ${DOCKER_IMAGE_ORG_AND_NAME}:latest
+    - docker buildx build --platform=linux/arm -t ${DOCKER_IMAGE_ORG_AND_NAME}:latest .
+    - DOCKER_DEFAULT_PLATFORM=linux/arm script/test.sh
