@@ -1,4 +1,4 @@
-FROM ruby:2.7.7-alpine3.16 AS base
+FROM ruby:2.7.8-alpine3.16 AS base
 
 FROM base AS base-amd64
 ENV SUPERCRONIC_SHA1SUM=2319da694833c7a147976b8e5f337cd83397d6be
@@ -45,10 +45,12 @@ RUN cat Gemfile.lock | grep -A1 "BUNDLED WITH" | tail -n1 | awk '{print $1}' > B
 RUN set -ex && \
   apk add --update --no-cache make gcc libc-dev mariadb-dev postgresql-dev sqlite-dev git && \
   apk upgrade && \
+  gem uninstall bundler -v 2.1.4 && \
   gem install bundler -v $(cat BUNDLER_VERSION) && \
   ls /usr/local/lib/ruby/gems/${RUBY_VERSION} && \
   gem install rdoc -v "6.3.2" --install-dir /usr/local/lib/ruby/gems/${RUBY_VERSION} && \
   gem uninstall --install-dir /usr/local/lib/ruby/gems/${RUBY_VERSION} -x rake && \
+  rm /usr/local/lib/ruby/gems/${RUBY_VERSION}/specifications/default/bundler-2.1.4.gemspec && \
   find /usr/local/lib/ruby -name webrick* -exec rm -rf {} + && \
   find /usr/local/lib/ruby -name rdoc-6.1* -exec rm -rf {} + && \
   bundle config set deployment 'true' && \
