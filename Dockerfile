@@ -5,9 +5,13 @@ ENV SUPERCRONIC_SHA1SUM=2319da694833c7a147976b8e5f337cd83397d6be
 
 FROM base AS base-arm64
 ENV SUPERCRONIC_SHA1SUM=c7d51b610d96a9a58d5eef0308922acc8be62eac
+# https://github.com/sparklemotion/nokogiri/issues/2414
+# Required for ARM (otherwise nokogiri breaks when viewing network graph)
+RUN apk add --update --no-cache gcompat
 
 FROM base AS base-arm
 ENV SUPERCRONIC_SHA1SUM=f6a61efbdd9a223e750aa03d16bbc417113a64d9
+RUN apk add --update --no-cache gcompat
 
 ARG TARGETARCH
 FROM base-$TARGETARCH AS pb-dev
