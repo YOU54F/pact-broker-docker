@@ -1,4 +1,4 @@
-FROM ruby:2.7.7-alpine3.17 AS base
+FROM ruby:2.7.7-alpine3.16 AS base
 
 FROM base AS base-amd64
 ENV SUPERCRONIC_SHA1SUM=2319da694833c7a147976b8e5f337cd83397d6be
