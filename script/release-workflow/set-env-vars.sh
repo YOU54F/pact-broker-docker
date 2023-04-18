@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export DOCKER_IMAGE_ORG_AND_NAME=pactfoundation/pact-broker
+export DOCKER_IMAGE_ORG_AND_NAME=you54f/pact-broker
 
 if [ -n "${CUSTOM_TAG:-}" ]; then
   export TAG=$CUSTOM_TAG

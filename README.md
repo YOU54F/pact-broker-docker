@@ -2,7 +2,7 @@
 
 [![Release Docker image](https://github.com/pact-foundation/pact-broker-docker/actions/workflows/release_image.yml/badge.svg)](https://github.com/pact-foundation/pact-broker-docker/actions/workflows/release_image.yml)
 
-This repository contains a Dockerized version of the [Pact Broker][pact-broker]. You can pull the `pactfoundation/pact-broker` image from [Dockerhub][pact-broker-docker]. If you're viewing these docs on Dockerhub, here is a link to the [github repository][github].
+This repository contains a Dockerized version of the [Pact Broker][pact-broker]. You can pull the `you54f/pact-broker` image from [Dockerhub][pact-broker-docker]. If you're viewing these docs on Dockerhub, here is a link to the [github repository][github].
 
 > Note: On 12 May 2018, the format of the docker tag changed from `M.m.p-RELEASE` to `M.m.p.RELEASE` (where `M.m.p` is the semantic version of the underlying Pact Broker package) so that Dependabot can recognise when the version has been incremented.
 
@@ -12,13 +12,13 @@ If you want to try out a Pact Broker that can be accessed by all your teams, wit
 
 ## Migrating from the dius/pact-broker image
 
-The `pactfoundation/pact-broker` image is a forked version of the `dius/pact-broker` image. It is smaller (as it runs on Alpine Linux with Puma instead of the larger Passenger Phusion base image), and does not need root permissions.
+The `you54f/pact-broker` image is a forked version of the `dius/pact-broker` image. It is smaller (as it runs on Alpine Linux with Puma instead of the larger Passenger Phusion base image), and does not need root permissions.
 
-All the environment variables used for `dius/pact-broker` are compatible with `pactfoundation/pact-broker`. The only breaking change is that the default port has changed from `80` to `9292` (because a user without root permisisons cannot bind to a port under 1024). If you wish to expose port 80 (or 443) you can deploy Ngnix in front of it (see the [docker-compose](https://github.com/pact-foundation/pact-broker-docker/blob/master/docker-compose.yml) file for an example).
+All the environment variables used for `dius/pact-broker` are compatible with `you54f/pact-broker`. The only breaking change is that the default port has changed from `80` to `9292` (because a user without root permisisons cannot bind to a port under 1024). If you wish to expose port 80 (or 443) you can deploy Ngnix in front of it (see the [docker-compose](https://github.com/pact-foundation/pact-broker-docker/blob/master/docker-compose.yml) file for an example).
 
 ### Which one should I use?
 
-Please read https://github.com/phusion/passenger/wiki/Puma-vs-Phusion-Passenger for information on which server will suit your needs best. The tl;dr is that if you want to run the docker image in a managed architecture which will make your application highly available (eg. ECS, Kubernetes) then use the `pactfoundation/pact-broker`. Puma will not restart itself if it crashes, so you will need external monitoring to ensure the Pact Broker stays available.
+Please read https://github.com/phusion/passenger/wiki/Puma-vs-Phusion-Passenger for information on which server will suit your needs best. The tl;dr is that if you want to run the docker image in a managed architecture which will make your application highly available (eg. ECS, Kubernetes) then use the `you54f/pact-broker`. Puma will not restart itself if it crashes, so you will need external monitoring to ensure the Pact Broker stays available.
 
 If you want to run the container as a standalone instance, then the `dius/pact-broker` image which uses Phusion Passenger may serve you better, as Passenger will restart any crashed processes.
 
@@ -110,7 +110,7 @@ Documentation for the Pact Broker application itself can be found in the Pact Br
 
 Performance can degrade when too much data accumulates in the Pact Broker. To read about the automatic data clean up feature, please see the [Maintenance](https://docs.pact.io/pact_broker/administration/maintenance) page of the Pact Broker documentation. 
 
-You will need version `2.79.1.1` or later of the pactfoundation/pact-broker Docker image for this feature.
+You will need version `2.79.1.1` or later of the you54f/pact-broker Docker image for this feature.
 
 ### Running the clean task on a cron schedule within the application container
 
@@ -232,7 +232,7 @@ docker run --rm \
     -e PACT_BROKER_DATABASE_URL=<url> \
     -e PACT_BROKER_MIGRATION_TARGET=<target> \
     --entrypoint db-migrate \
-    pactfoundation/pact-broker
+    you54f/pact-broker
 ```
 
 To get the current version of the database run:
@@ -241,7 +241,7 @@ To get the current version of the database run:
 docker run --rm \
     -e PACT_BROKER_DATABASE_URL=<url> \
     --entrypoint db-version \
-    pactfoundation/pact-broker
+    you54f/pact-broker
 ```
 # Vulnerability scanning
 
@@ -255,7 +255,7 @@ See the [Troubleshooting][troubleshooting] page on the docs site.
 
 [docker]: https://docs.docker.com/install/
 [pact-broker]: https://github.com/pact-foundation/pact_broker
-[pact-broker-docker]: https://hub.docker.com/r/pactfoundation/pact-broker/
+[pact-broker-docker]: https://hub.docker.com/r/you54f/pact-broker/
 [pact-broker-openshift]: https://github.com/jaimeniswonger/pact-broker-openshift
 [badges]: https://docs.pact.io/pact_broker/advanced_topics/provider_verification_badges
 [troubleshooting]: https://github.com/pact-foundation/pact-broker-docker/wiki/Troubleshooting

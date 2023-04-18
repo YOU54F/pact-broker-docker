@@ -3,7 +3,7 @@ name: Test
 on: [push, pull_request]
 env:
   DOCKER_TARGET_PLATFORM: "linux/amd64"
-  DOCKER_IMAGE_ORG_AND_NAME: "pactfoundation/pact-broker"
+  DOCKER_IMAGE_ORG_AND_NAME: "you54f/pact-broker"
 
 jobs:
   test:

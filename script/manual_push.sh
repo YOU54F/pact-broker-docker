@@ -3,7 +3,7 @@
 
 set -ex
 
-IMAGE_NAME="pactfoundation/pact-broker"
+IMAGE_NAME="you54f/pact-broker"
 TAG=$(script/next-docker-tag.sh)
 
 docker pull ${IMAGE_NAME}

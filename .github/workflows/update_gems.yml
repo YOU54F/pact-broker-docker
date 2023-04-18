@@ -43,7 +43,7 @@ jobs:
           DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t pactfoundation/pact-broker:latest .
+        run: docker build -t you54f/pact-broker:latest .
 
       - name: Integration tests
         run: script/test.sh
@@ -55,7 +55,7 @@ jobs:
           RELEASED_GEM_VERSION: '${{ github.event.client_payload.version }}'
 
       - name: Vulnerability scan
-        run: script/scan.sh pactfoundation/pact-broker:latest
+        run: script/scan.sh you54f/pact-broker:latest
 
       - name: Trigger release
         uses: peter-evans/repository-dispatch@v1

@@ -4,7 +4,7 @@ set -e
 
 . script/functions
 
-DOCKER_IMAGE="pactfoundation/pact-broker"
+DOCKER_IMAGE="you54f/pact-broker"
 gem_version=$(gem_version_from_gemfile_lock)
 # this is returning 410 Gone now - might need authentication. Means the next_release_number is always set to 0.
 existing_tags=$(wget -q https://registry.hub.docker.com/v1/repositories/${DOCKER_IMAGE}/tags -O - | jq -r .[].name | sed 's/-[0-9]$/.1/g')

@@ -13,4 +13,4 @@ echo "Tagging version ${TAG}"
 git tag -a "${TAG}" -m "Releasing version ${TAG}"
 git push origin "${TAG}"
 git push origin master
-echo "Releasing from https://hub.docker.com/repository/docker/pactfoundation/pact-broker/builds"
+echo "Releasing from https://hub.docker.com/repository/docker/you54f/pact-broker/builds"

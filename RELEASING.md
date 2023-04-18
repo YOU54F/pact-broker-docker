@@ -10,7 +10,7 @@
 
 ## Debugging
 
-    docker build -t pactfoundation/pact-broker:latest .
+    docker build -t you54f/pact-broker:latest .
     docker-compose -f docker-compose-dev.yml up --build
 
 ## Releasing image to Docker Hub
