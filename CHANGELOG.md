@@ -1,3 +1,14 @@
+<a name="2.108.0.0"></a>
+### 2.108.0.0 (2023-04-18)
+
+#### Features
+
+* support multi-manifest builds + testing via you54f dockerhub acc	 ([bd09f8c](/../../commit/bd09f8c))
+
+#### Bug Fixes
+
+* gcompat req for arm due to nokogiri crash on network graph	 ([86f8233](/../../commit/86f8233))
+
 <a name="2.107.0.1"></a>
 ### 2.107.0.1 (2023-03-16)
 
