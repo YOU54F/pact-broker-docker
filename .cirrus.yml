@@ -1,6 +1,7 @@
 env:
   DOCKER_IMAGE_ORG_AND_NAME: pactfoundation/pact-broker
   DOCKER_TARGET_PLATFORM: linux/arm64
+  TAG: "latest"
 
 linux_arm64_build_test_task: 
   compute_engine_instance:
@@ -13,7 +14,7 @@ linux_arm64_build_test_task:
   pre_req_script: |
       apt update --yes && apt install --yes jq
       ./script/release-workflow/docker-prepare.sh
-  built_audit_script: |
+  build_audit_script: |
       ./script/release-workflow/audit.sh
   test_script: |
       ./script/test.sh
