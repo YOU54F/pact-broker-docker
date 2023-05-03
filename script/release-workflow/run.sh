@@ -2,14 +2,14 @@
 
 set -euo >/dev/null
 
-script_dir=$(cd "$(dirname $0)" && pwd)
+workflow_dir=$(cd "$(dirname $0)" && pwd)
 
 if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
-  ${script_dir}/git-configure.sh
-  ${script_dir}/docker-login.sh
+  ${workflow_dir}/git-configure.sh
+  ${workflow_dir}/docker-login.sh
 fi
 
-. ${script_dir}/set-env-vars.sh
+. ${workflow_dir}/set-env-vars.sh
 
 ${script_dir}/validate.sh
 ${script_dir}/docker-prepare.sh

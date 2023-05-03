@@ -2,42 +2,29 @@
 
 set -euo >/dev/null
 
-
-if [ -z "${TAG}" ]; then
-  echo TAG env var not set
-  exit 1
-fi
-
-PUSH_TO_LATEST=${PUSH_TO_LATEST:-"false"}
-
+## Publish a multi arch build with -multi added to the tag
+## ($TAG||$MAJOR_TAG||$LATEST)-multi
 push_multi() {
-## These will use cached builds, so wont build every time.
+  ## These will use cached builds, so wont build every time.
   docker buildx build --platform=linux/amd64,linux/arm64,linux/arm \
     --output=type=image,push=true \
     -t ${DOCKER_IMAGE_ORG_AND_NAME}:$1-multi .
 }
-
-if [ -n "${TAG}" ]; then
+push() {
   docker buildx build --platform=linux/amd64 \
     --output=type=image,push=true \
-    -t ${DOCKER_IMAGE_ORG_AND_NAME}:${TAG} .
+    -t ${DOCKER_IMAGE_ORG_AND_NAME}:$1 .
+}
 
- ## We will temporarily publish a multi manifest built as $TAG-multi
- ## To avoid any issues with existing users. We can ask users for 
- ## Feedback and then promote to a multi-manifest build
+if [ -n "${MAJOR_TAG:-}" ]; then
+  push ${MAJOR_TAG}
   push_multi ${MAJOR_TAG}
 fi
 
-if [ -n "${MAJOR_TAG}" ]; then
-  docker buildx build --platform=linux/amd64 \
-    --output=type=image,push=true \
-    -t ${DOCKER_IMAGE_ORG_AND_NAME}:${MAJOR_TAG} .
-  push_multi ${MAJOR_TAG}
-fi
+push ${TAG}
+push_multi ${TAG}
 
 if [ "${PUSH_TO_LATEST}" != "false" ]; then
-  docker buildx build --platform=linux/amd64 \
-    --output=type=image,push=true \
-    -t ${DOCKER_IMAGE_ORG_AND_NAME}:latest .
+  push latest
   push_multi latest
 fi
