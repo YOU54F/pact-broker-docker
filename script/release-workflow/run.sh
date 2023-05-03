@@ -11,10 +11,10 @@ fi
 
 . ${workflow_dir}/set-env-vars.sh
 
-${script_dir}/validate.sh
-${script_dir}/docker-prepare.sh
-${script_dir}/docker-build-multi.sh
-arch=amd64 ${script_dir}/docker-scan.sh
-${script_dir}/prepare-release.sh
-${script_dir}/docker-push.sh
-${script_dir}/git-push.sh
+${workflow_dir}/validate.sh
+${workflow_dir}/docker-prepare.sh
+${workflow_dir}/docker-build-multi.sh
+arch=amd64 ${workflow_dir}/docker-scan.sh
+${workflow_dir}/prepare-release.sh
+${workflow_dir}/docker-push.sh
+${workflow_dir}/git-push.sh
