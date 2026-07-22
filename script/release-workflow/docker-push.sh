@@ -27,8 +27,8 @@ fi
 
 push ${TAG}
 push_ghcr ${TAG}
-
+DEBIAN=${IS_DEBIAN:+"-debian"}
 if [ "${PUSH_TO_LATEST}" != "false" ]; then
-  push latest
-  push_ghcr latest
+  push latest${DEBIAN}
+  push_ghcr latest${DEBIAN}
 fi

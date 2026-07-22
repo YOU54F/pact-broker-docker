@@ -15,6 +15,13 @@ ${workflow_dir}/validate.sh
 ${workflow_dir}/docker-prepare.sh
 ${workflow_dir}/docker-build.sh
 ${workflow_dir}/docker-scan.sh
-${workflow_dir}/prepare-release.sh
+
+# skip release preperation and git push on the debian workflow to avoid 
+# overwriting
+if [[ -z "${IS_DEBIAN}" ]];
+  ${workflow_dir}/prepare-release.sh
+fi
 ${workflow_dir}/docker-push.sh
-${workflow_dir}/git-push.sh
+if [[ -z "${IS_DEBIAN}" ]];
+  ${workflow_dir}/git-push.sh
+fi
