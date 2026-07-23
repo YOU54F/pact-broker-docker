@@ -11,7 +11,8 @@ if [ -n "${DOCKER_TARGET_PLATFORM:-}" ]; then
     export ARCH=$(echo "$DOCKER_TARGET_PLATFORM" | sed 's/linux\///' | sed 's/\/v.*//')
     export ARCHES=$ARCH
 else 
-    export ARCHES='amd64 arm64 arm'
+    # export ARCHES='amd64 arm64 arm'
+    export ARCHES='amd64'
     export ARCH=amd64
 fi
 

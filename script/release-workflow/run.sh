@@ -19,10 +19,10 @@ ${workflow_dir}/docker-scan.sh
 
 # skip release prep and git push on the debian workflow to avoid 
 # overwriting
-if [[ -z "${IS_DEBIAN}" ]]; then
+if [ -z "${IS_DEBIAN}" ]; then
   ${workflow_dir}/prepare-release.sh
 fi
 ${workflow_dir}/docker-push.sh
-if [[ -z "${IS_DEBIAN}" ]]; then
+if [ -z "${IS_DEBIAN}" ]; then
   ${workflow_dir}/git-push.sh
 fi
