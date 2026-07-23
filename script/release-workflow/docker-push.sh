@@ -11,13 +11,16 @@ push() {
     --annotation "org.opencontainers.image.source=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" \
     --annotation "org.opencontainers.image.revision=$GITHUB_SHA" \
     --output=type=image,push=true \
-    -t ${DOCKER_IMAGE_ORG_AND_NAME}:$1 .
+    -t ${DOCKER_IMAGE_ORG_AND_NAME}:$1 \
+    -f Dockerfile${IS_DEBIAN:+.debian}
+
 }
 push_ghcr() {
   docker buildx build --platform=linux/amd64,linux/arm64,linux/arm \
   --build-arg VERSION=${TAG} \
   --output=type=image,push=true \
-  -t ghcr.io/$(echo $DOCKER_IMAGE_ORG_AND_NAME | sed 's/pactfoundation/pact-foundation/g'):$1 .
+  -t ghcr.io/$(echo $DOCKER_IMAGE_ORG_AND_NAME | sed 's/pactfoundation/pact-foundation/g'):$1 \
+  -f Dockerfile${IS_DEBIAN:+.debian}
 }
 
 if [ -n "${MAJOR_TAG:-}" ]; then
@@ -27,8 +30,7 @@ fi
 
 push ${TAG}
 push_ghcr ${TAG}
-DEBIAN=${IS_DEBIAN:+"-debian"}
 if [ "${PUSH_TO_LATEST}" != "false" ]; then
-  push latest${DEBIAN}
-  push_ghcr latest${DEBIAN}
+  push latest${IS_DEBIAN:+"-debian"}
+  push_ghcr latest${IS_DEBIAN:+"-debian"}
 fi

@@ -26,13 +26,15 @@ if [ -z "$TAG" ]; then
   if [ -z "$VERSION" ]; then
     export VERSION=$(bundle exec bump show-next $INCREMENT)
   fi
-
-  DEBIAN=${IS_DEBIAN:+"-debian"}
+  : "${IS_DEBIAN:=}"
+  export IS_DEBIAN
+  export DEBIAN=${IS_DEBIAN:+"-debian"}
 
   export PACT_BROKER_VERSION=$(grep "pact_broker (" pact_broker/Gemfile.lock | awk -F '[()]' '{print $2}')
   export TAG="$VERSION-pactbroker${PACT_BROKER_VERSION}${DEBIAN}"
   export MAJOR_TAG="$(echo $VERSION | cut -d'.' -f1)${DEBIAN}"
 
+  echo "IS_DEBIAN=$IS_DEBIAN"
   echo "INCREMENT=$INCREMENT"
   echo "VERSION=$VERSION"
   echo "PACT_BROKER_VERSION=$PACT_BROKER_VERSION"
