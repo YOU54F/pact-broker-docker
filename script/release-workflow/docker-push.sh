@@ -13,7 +13,7 @@ push() {
     --annotation "org.opencontainers.image.revision=$GITHUB_SHA" \
     --output=type=image,push=true \
     -t ${DOCKER_IMAGE_ORG_AND_NAME}:$1 \
-    -f Dockerfile${IS_DEBIAN:+.debian}
+    -f Dockerfile${IS_DEBIAN:+.debian} .
 
 }
 push_ghcr() {
@@ -22,7 +22,7 @@ push_ghcr() {
   --build-arg VERSION=${TAG} \
   --output=type=image,push=true \
   -t ghcr.io/$(echo $DOCKER_IMAGE_ORG_AND_NAME | sed 's/pactfoundation/pact-foundation/g'):$1 \
-  -f Dockerfile${IS_DEBIAN:+.debian}
+  -f Dockerfile${IS_DEBIAN:+.debian} .
 }
 
 if [ -n "${MAJOR_TAG:-}" ]; then
