@@ -12,7 +12,7 @@ for arch in $ARCHES; do
     --platform linux/$arch \
     --build-arg VERSION="${TAG:-dev}" \
     --output type=docker \
-    --tag ${DOCKER_IMAGE_ORG_AND_NAME}:latest-${arch}${IS_DEBIAN:+"-debian"} \
+    --tag ${DOCKER_IMAGE_ORG_AND_NAME}:latest-${arch}${DEBIAN} \
     -f Dockerfile${IS_DEBIAN:+.debian} \
     .
 done

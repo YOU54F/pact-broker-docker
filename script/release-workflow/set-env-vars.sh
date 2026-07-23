@@ -15,6 +15,11 @@ else
     export ARCH=amd64
 fi
 
+: "${IS_DEBIAN:=}"
+export IS_DEBIAN=$IS_DEBIAN
+export DEBIAN=${IS_DEBIAN:+"-debian"}
+echo "IS_DEBIAN=$IS_DEBIAN"
+
 if [ -z "$TAG" ]; then
   if [ -n "$VERSION" ] && [ -z "$INCREMENT" ]; then
     echo "If VERSION is specified, then INCREMENT must also be specified"
@@ -26,15 +31,11 @@ if [ -z "$TAG" ]; then
   if [ -z "$VERSION" ]; then
     export VERSION=$(bundle exec bump show-next $INCREMENT)
   fi
-  : "${IS_DEBIAN:=}"
-  export IS_DEBIAN
-  export DEBIAN=${IS_DEBIAN:+"-debian"}
 
   export PACT_BROKER_VERSION=$(grep "pact_broker (" pact_broker/Gemfile.lock | awk -F '[()]' '{print $2}')
-  export TAG="$VERSION-pactbroker${PACT_BROKER_VERSION}${DEBIAN}"
-  export MAJOR_TAG="$(echo $VERSION | cut -d'.' -f1)${DEBIAN}"
+  export TAG="$VERSION-pactbroker${PACT_BROKER_VERSION}"
+  export MAJOR_TAG="$(echo $VERSION | cut -d'.' -f1)"
 
-  echo "IS_DEBIAN=$IS_DEBIAN"
   echo "INCREMENT=$INCREMENT"
   echo "VERSION=$VERSION"
   echo "PACT_BROKER_VERSION=$PACT_BROKER_VERSION"

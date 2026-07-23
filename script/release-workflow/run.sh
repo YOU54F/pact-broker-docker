@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -euo >/dev/null
+: "${IS_DEBIAN:=}"
 
 workflow_dir=$(cd "$(dirname $0)" && pwd)
 
@@ -16,7 +17,7 @@ ${workflow_dir}/docker-prepare.sh
 ${workflow_dir}/docker-build.sh
 ${workflow_dir}/docker-scan.sh
 
-# skip release preperation and git push on the debian workflow to avoid 
+# skip release prep and git push on the debian workflow to avoid 
 # overwriting
 if [[ -z "${IS_DEBIAN}" ]]; then
   ${workflow_dir}/prepare-release.sh

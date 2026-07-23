@@ -24,13 +24,13 @@ push_ghcr() {
 }
 
 if [ -n "${MAJOR_TAG:-}" ]; then
-  push ${MAJOR_TAG}
-  push_ghcr ${MAJOR_TAG}
+  push ${MAJOR_TAG}${DEBIAN}
+  push_ghcr ${MAJOR_TAG}${DEBIAN}
 fi
 
-push ${TAG}
-push_ghcr ${TAG}
+push ${TAG}${DEBIAN}
+push_ghcr ${TAG}${DEBIAN}
 if [ "${PUSH_TO_LATEST}" != "false" ]; then
-  push latest${IS_DEBIAN:+"-debian"}
-  push_ghcr latest${IS_DEBIAN:+"-debian"}
+  push latest${DEBIAN}
+  push_ghcr latest${DEBIAN}
 fi
